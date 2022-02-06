@@ -6,13 +6,25 @@
 body {
   font-family: "Noto Sans KR", sans-serif;
 }
+h4 {
+  color: #282c34;
+}
+p {
+  color: #6e7177;
+}
+.list {
+  margin-top: 30px;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .black-nav {
   background-color: #eee;
   width: 100%;
   display: flex;
   color: #282c34;
   padding: 20px;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 20px;
 }
 .App-logo {

@@ -29,6 +29,11 @@ p {
   font-weight: 500;
   font-size: 20px;
 }
+.modal {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: rgba(238, 238, 238, 0.61);
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

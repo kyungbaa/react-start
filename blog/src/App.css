@@ -10,7 +10,9 @@ h4 {
   color: #282c34;
 }
 p {
+  position: relative;
   color: #6e7177;
+  top: -10px;
 }
 .list {
   margin-top: 30px;

@@ -10,8 +10,15 @@ function App() {
     "29cm 구매 후기",
   ]);
 
-  let [따봉, 따봉변경] = useState(0);
+  let [따봉, 따봉변경] = useState([0, 0, 0]);
+  let 따봉복사 = [...따봉];
+  function 따봉바꾸기0() {
+    따봉복사[0]++;
+    따봉변경(따봉복사);
+  }
   let [modal, modal변경] = useState(false); // on, off
+  let [누른제목, 누른제목변경] = useState(0);
+  let [입력값, 입력값변경] = useState(""); // useState("");초기값 빈 문자열
   function 제목바꾸기() {
     /* 
      reference date type 특징
@@ -53,14 +60,19 @@ function App() {
       <div className="black-nav">
         <div>개발 Blog</div>
       </div>
-      {반복UI()}
+      {/* {반복UI()} */}
       {/* map 함수'=
       반복할데이터.map(()=>{return<HTML>})
        */}
-      {글제목.map(function (글) {
+      {글제목.map(function (글, i) {
         return (
-          <div className="list">
-            <h4>
+          <div className="list" key={i}>
+            <h4
+              onClick={() => {
+                modal변경(!modal);
+                누른제목변경(i);
+              }}
+            >
               {글}{" "}
               <span
                 onClick={() => {
@@ -76,9 +88,36 @@ function App() {
           </div>
         );
       })}
-
+      {/* {입력값}
+      <input
+        onChange={(e) => {
+          입력값변경(e.target.value);
+        }}
+      ></input> */}
       <button onClick={제목바꾸기}>수정 </button>
       <button onClick={순서바꾸기}>타이틀 순 정렬</button>
+
+      {/* <button
+        onClick={() => {
+          누른제목변경(0);
+        }}
+      >
+        제목 변경글 1{" "}
+      </button>
+      <button
+        onClick={() => {
+          누른제목변경(1);
+        }}
+      >
+        제목 변경글 2
+      </button>
+      <button
+        onClick={() => {
+          누른제목변경(2);
+        }}
+      >
+        제목 변경글 3{" "}
+      </button> */}
 
       <button
         onClick={() => {
@@ -88,12 +127,20 @@ function App() {
         {" "}
         열고닫는버튼{" "}
       </button>
-      {modal === true ? <Modal /> : null}
+      {modal === true ? (
+        <Modal 글제목={글제목} 누른제목={누른제목}></Modal>
+      ) : null}
+
+      {/*
+       props로 자식에게 state 전달 방법  
+      자식 컴포넌트 작명 ={state명}
+      자식 컴포넌트에서 props 파라미터 입력 후 사용
+       */}
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   // component 유의사항
   // 컴포넌트 만들 시 이름의 앞글자 대문자사용
   // return()안에 div여러개 동일선상에서 두개 이상 불가 (많이 만들고 싶다면 큰 div안에 넣을것)
@@ -103,14 +150,14 @@ function Modal() {
   - 컴포넌트 장점 
     반복적으로 출현하는 html들은 컴포넌트 만들기를 추천
     사이트내에서 자주 변경되는 html UI들
-    다른 페이즐ㄹ 만들 때도 컴포넌트로 만듦 
+    다른 페이지 만들 때도 컴포넌트로 만듦 
    - 컴포넌트 단점
     state 쓸때 복잡함 
    */
   return (
     <>
       <div className="modal">
-        <h4>제목 </h4>
+        <h2> {props.글제목[props.누른제목]}</h2>
         <p>날짜</p>
         <p>상세내용</p>
       </div>

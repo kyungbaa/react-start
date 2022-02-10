@@ -1,16 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+$blackfont: rgb(34, 34, 34);
+
 body {
   margin: 0 auto;
   font-family: "Noto Sans KR", sans-serif;
-  color: #222222;
+  color: $blackfont;
 }
-
 .App {
   text-align: center;
 }
 
 .nav {
-  background-color: #eeeeee;
+  background-color: rgb(238, 238, 238);
   width: 100%;
   font-weight: bold;
   display: flex;
@@ -18,20 +19,19 @@ body {
   font-size: 20px;
   align-items: center;
 }
-
 .nav-logo {
   width: 70px;
 }
-
 .section {
   padding: 40px;
   text-align: left;
   margin-top: 30px;
 }
-
-.list h4 {
-  margin-bottom: -10px;
+.list {
+  h4 {
+    margin-bottom: -10px;
+  }
+  p {
+    color: rgb(131, 131, 131);
+  }
 }
-.list p {
-  color: #838383;
-}/*# sourceMappingURL=App.css.map */

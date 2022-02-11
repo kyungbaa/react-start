@@ -1,4 +1,3 @@
-/* eslint-disable*/
 // eslint-disable 노란색으로 잡아주는 문법적 오류들을 안보이게 함
 import React, { useState } from "react";
 import logo from "./logo.svg";
@@ -24,6 +23,21 @@ function App() {
     "디에디트 추천",
   ]);
 
+  let [따봉, 따봉변경] = useState([0, 0, 0]);
+  let [날짜, 날짜변경] = useState([Date(), Date(), Date()]);
+
+  let [누른제목번호, 누른제목번호변경] = useState(0);
+
+  let [글추가입력, 글추가입력변경] = useState("");
+
+  let [modal, modal변경] = useState(false);
+
+  function 따봉개별(i) {
+    let 따봉복사 = [...따봉];
+    따봉복사[i]++;
+    따봉변경(따봉복사);
+  }
+
   function 제목바꾸기() {
     let newArray = [...글제목]; //  값을 공유하는것이 아닌 독립적인 값을 갖기 위해 별개의 복사본을 만들것
     newArray[0] = "여자 코트 추천"; // 복사한 array에서 수정할것 리액트 대원칙 immutable data state직접 수정 하지 말것
@@ -35,19 +49,30 @@ function App() {
     newTitleArray.sort();
     글제목변경(newTitleArray);
   }
-  let [따봉, 따봉변경] = useState(0);
-  let [날짜, 날짜변경] = useState([
-    "2021년 2월 17일",
-    "2021년 2월 16일",
-    "2021년 2월 14일",
-  ]);
-  let [modal, modal변경] = useState(false);
 
+  function 글저장() {
+    let 새로운글목록 = [...글제목];
+    새로운글목록.unshift(글추가입력);
+    글제목변경(새로운글목록);
+    let 새로운날짜 = [...날짜];
+    새로운날짜.unshift(Date());
+    날짜변경(새로운날짜);
+    따봉.unshift(0);
+  }
   // let 어레이 = [1, 2, 3];
   // let 뉴어레이 = 어레이.map(function (a) {
   //   return a * a;
   // });
   // console.log(뉴어레이);
+
+  // function 반복된UI() {
+  //   let uiArray = [];
+  //   for (let i = 0; i < 3; i++) {
+  //     uiArray.push(<div>안녕</div>);
+  //   }
+  //   return uiArray;
+  // }
+
   return (
     <div className="App">
       <div className="nav">
@@ -57,86 +82,118 @@ function App() {
         </div>
       </div>
       <div className="section">
-        <div className="list">
-          <h3>
-            {글제목[0]}{" "}
-            <span
-              onClick={() => {
-                따봉변경(따봉 + 1);
-              }}
-            >
-              👍
-            </span>
-            {따봉}
-          </h3>
-          <p>{날짜[0]}</p>
-          <hr />
-        </div>
-        <div className="list">
-          <h3>
-            {글제목[1]} <span>👍</span>3
-          </h3>
-          <p>{날짜[1]}</p>
-          <hr />
-        </div>
-        <div className="list">
-          <h3
-            onClick={() => {
-              modal변경(true);
-            }}
-          >
-            {글제목[2]} <span>👍</span>3
-          </h3>
-          <p>{날짜[2]}</p>
-          <hr />
-        </div>
-        {글제목.map(function () {
+        {글제목.map(function (글, i) {
+          // 글: 글제목 array안에 들어있던 하나하나의 데이터
           return (
-            <div className="list">
-              <h3>
-                {글제목[0]}{" "}
+            <div className="list" key={i}>
+              <h3
+                onClick={() => {
+                  누른제목번호변경(i);
+                }}
+              >
+                {글}
                 <span
                   onClick={() => {
-                    따봉변경(따봉 + 1);
+                    따봉개별(i);
                   }}
                 >
                   👍
                 </span>
-                {따봉}
+                {따봉[i]}
               </h3>
-              <p>{날짜[0]}</p>
+              <p>{날짜[i]}</p>
               <hr />
             </div>
           );
         })}
 
-        <button onClick={제목바꾸기}>변경</button>
-        <button onClick={글제목순서변경}>제목 순서 변경</button>
-        <button
-          onClick={() => {
-            modal변경(!modal);
-          }}
-        >
-          내용보기
-        </button>
-        {modal === true ? <Modal></Modal> : null}
+        <div className="buttons">
+          <div className="change_buttons">
+            <button onClick={제목바꾸기}>변경</button>
+            <button onClick={글제목순서변경}>제목 순서 변경</button>
+            <button
+              onClick={() => {
+                modal변경(!modal);
+              }}
+            >
+              내용보기
+            </button>
+            {/* <input
+              onChange={(e) => {
+                입력값변경(e.target.value);
+              }}
+            ></input>
+            {입력값} */}
+            {/* <button
+              onClick={() => {
+                누른제목번호변경(0);
+              }}
+            >
+              버튼1
+            </button>
+            <button
+              onClick={() => {
+                누른제목번호변경(1);
+              }}
+            >
+              버튼2
+            </button>
+            <button
+              onClick={() => {
+                누른제목번호변경(2);
+              }}
+            >
+              버튼3
+            </button> */}
+          </div>
+          <div className="publish">
+            <input
+              onChange={(e) => {
+                글추가입력변경(e.target.value);
+              }}
+            ></input>
+            <button
+              onClick={() => {
+                console.log(글제목);
+                글저장();
+              }}
+            >
+              저장
+            </button>
+          </div>
+        </div>
+
+        {modal === true ? (
+          <Modal
+            글제목={글제목}
+            누른제목번호={누른제목번호}
+            날짜={날짜}
+          ></Modal>
+        ) : null}
         {/*modal이 true일 경우만 modal을 띄워줍니다.*/}
+        {/* {반복된UI()} */}
       </div>
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   return (
     <>
-      {/*return 안에는 여러개의 태그 불가 큰 div 하나안에 다 넣어야함  ++ div대용으로 <></>사용가능  */}
+      {/*return 안에는 여러개의 태그 불가 큰 div 하나안에 다 넣어야함  ++ div대용으로 <></>사용가능  
+      props를 사용해서 부모 컴포넌트에서 state를 넘겨받는다.
+      1. 부모 컴포넌트 안에서 자식 컴포넌트  작명 = 전송할 state 이름 
+      <Modal 글제목={변수명}>말고 Modal 글제목="강남우동맛집"> 일반 텍스트 전송도 가능함 
+      2. 자식 컴포넌트 안에서 props 파라미터 입력 후 사용 (props) 일종의 큰 변수
+      (props는 아무 이름으로 해도 괜찮으나 관습적으로 props 사용)
+      */}
       <div className="modal">
         <div className="modal-title">
-          <h2>ㅇㅇㅇㅇ</h2>
+          <h2>{props.글제목[props.누른제목번호]}</h2>
         </div>
         <div className="modal-contents">
-          <p>날짜</p>
-          <p>내용</p>
+          <p>{props.날짜[props.누른제목번호]}</p>
+          <p> 상세 내용</p>
         </div>
       </div>
     </>

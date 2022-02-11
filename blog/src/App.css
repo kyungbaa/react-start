@@ -39,8 +39,8 @@ body {
 }
 
 button {
-  padding: 5px 15px;
-  border-radius: 3px;
+  padding: 5px 10px;
+  border-radius: 2px;
   margin-right: 10px;
   border: none;
   background-color: #c8c9d6;
@@ -71,4 +71,60 @@ button:active {
 }
 .modal .modal-contents {
   padding: 15px;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.publish {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.publish input {
+  margin-right: 5px;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 3px;
+  width: 80%;
+  border: 1px solid grey;
+}
+
+.publish button {
+  margin-right: 0px;
+}
+
+@media screen and (max-width: 1200px) {
+  .change_buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .change_buttons button {
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 6px;
+  }
+
+  .publish {
+    margin-top: 10px;
+    width: 100%;
+  }
+  .publish input {
+    width: 80%;
+    margin-left: 0px;
+  }
+  .publish button {
+    width: 20%;
+  }
 }/*# sourceMappingURL=App.css.map */

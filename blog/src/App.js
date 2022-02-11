@@ -162,7 +162,7 @@ function App() {
             </button>
           </div>
         </div>
-
+        <Profile></Profile>
         {modal === true ? (
           <Modal
             글제목={글제목}
@@ -198,5 +198,30 @@ function Modal(props) {
       </div>
     </>
   );
+}
+// 컴포넌트 만드는 두번째 방법 class
+class Profile extends React.Component {
+  constructor() {
+    super();
+    // state는 constructor안에 작성
+    this.state = { name: "Kim", age: 30 };
+  }
+
+  changeName() {
+    this.setState({ name: "Park" });
+  }
+  render() {
+    return (
+      <div>
+        <h3>Profile</h3>
+        <p>저는 {this.state.name}입니다.</p>
+        {/* State 사용시 this.state.꺼낼데이터 */}
+        <button onClick={this.changeName.bind(this)}>이름변경</button>
+        {/* 버튼 클릭 이름 변경 함수 
+         [원래값, 변경할래]=useState 변경할래 같이 사용하는 함수 setState() 
+        대신 useState는 아예 대체해버리고 setState는 넘겨준 값만 {name: "Park"}변경한다*/}
+      </div>
+    );
+  }
 }
 export default App;

@@ -6,9 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter } from "react-router-dom";
 
+//HashRouter 라우팅을 안전하게 할 수 있음  > 서버에게 특정 페이지좀 보여달라는 요청할때 없는 페이지를 요청할경우 404 Page Not Found 에러가 뜨는데 실수로 요청하지 않기 위해 주소 뒤에 #을 띄워줌 브라우저에서 #뒤는 서버로 요청되지 않는다.
+//BrowserRouter : 라우팅을 리액트가 아니라 서버에게 요청할 수 있어서 위험
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

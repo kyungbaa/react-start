@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
 body {
   font-family: "Noto Sans KR", sans-serif;
+  overflow-y: scroll;
 }
 
 .topbanner {
@@ -45,6 +46,33 @@ body {
 .container-contents h5 {
   margin-top: 14px;
 }
+.container-contents .container-contents-text {
+  padding-left: 20px;
+}
+
+.container {
+  text-align: left;
+}
+
+.container-box {
+  margin-top: 120px;
+  max-width: 1320px;
+}
+.container-box button {
+  margin-right: 10px;
+}
+.container-box .price {
+  font-weight: 700;
+}
+
+.container-box-detail-warp {
+  position: relative;
+}
+
+.container-box-detail {
+  position: absolute;
+  bottom: 0px;
+}
 
 @media screen and (min-width: 1400px) {
   .topbanner-contents {
@@ -62,5 +90,17 @@ body {
 
   .container-contents {
     margin-bottom: -100px;
+  }
+  .container-contents .container-contents-text {
+    padding: 0;
+  }
+
+  .container {
+    text-align: center;
+  }
+
+  .container-box-detail {
+    position: static;
+    bottom: 0px;
   }
 }/*# sourceMappingURL=index.css.map */

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
-
+import { 재고context } from "./App";
 import "./Detail.css";
-
+import { Nav } from "react-bootstrap";
+import { CSSTransition } from "react-transition-group";
 let 박스 = styled.div`
   padding: 20px;
 `;
@@ -18,6 +19,8 @@ let 제목 = styled.h4`
 function Detail(props) {
   let [inputData, inputData변경] = useState(" ");
   let [alert, alert변경] = useState(true);
+  let [누른탭, 누른탭변경] = useState(0);
+  let [스위치, 스위치변경] = useState(false);
   useEffect(() => {
     //2초후에 alert창 안보이게 해주셈ㅎ
     let timmer = setTimeout(() => {
@@ -38,6 +41,7 @@ function Detail(props) {
   let history = useHistory();
   // 방문 기록을 저장해두는 object
   // 사용 순서 (1. useHistory 라는 훅 import  2.useHistory() 훅 사용 )
+  let 재고 = useContext(재고context);
   return (
     <>
       <div className="container container-box ">
@@ -53,8 +57,8 @@ function Detail(props) {
         ></input>
         {inputData}
         <div className="row">
-          <div className="col-md-6 content-im">
-            <img src={찾은상품.imgUrl} width="100%" />
+          <div className="col-md-6 content-img">
+            <img src={찾은상품.imgUrl} width={"100%"} />
           </div>
           <div className="col-md-6 mt-4 container-box-detail-warp">
             <div className="container-box-detail">
@@ -65,7 +69,7 @@ function Detail(props) {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea{" "}
+                nisi ut aliquip ex ea
               </p>
               <p className="price">{찾은상품.price}</p>
               <Info 재고={props.재고} 찾은상품={찾은상품}></Info>
@@ -101,10 +105,68 @@ function Detail(props) {
               </button>
             </div>
           </div>
+          <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-0"
+                onClick={() => {
+                  스위치변경(false);
+                  누른탭변경(0);
+                }}
+              >
+                Active
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-1"
+                onClick={() => {
+                  스위치변경(false);
+                  누른탭변경(1);
+                }}
+              >
+                Option 2
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-2"
+                s
+                onClick={() => {
+                  스위치변경(false);
+                  누른탭변경(2);
+                }}
+              >
+                Active2
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+
+          <div className="mt-5"></div>
+          <CSSTransition in={스위치} classNames="wow" timeout={500}>
+            <TabContent 누른탭={누른탭} 스위치변경={스위치변경} />
+          </CSSTransition>
+
+          <div className="mt-5"></div>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
+}
+
+function TabContent(props) {
+  useEffect(() => {
+    props.스위치변경(true);
+  });
+  if (props.누른탭 === 0) {
+    return <div>0번째 내용입니다. </div>;
+  }
+  if (props.누른탭 === 1) {
+    return <div>1번째 내용입니다. </div>;
+  }
+  if (props.누른탭 === 2) {
+    return <div>2번째 내용입니다. </div>;
+  }
 }
 
 class Detail2 extends React.Component {
@@ -112,7 +174,7 @@ class Detail2 extends React.Component {
     // Detail2 컴포넌트가 Mount (등장)되었을 때 실행할 코드~
   }
   componentWillUnmount() {
-    // Detail2 컴포넌트가 UnMount (퇴장) 직전에  실행할 코드~
+    // Detail2 컴포넌트가 UnMount (퇴장) 직전에 실행할 코드
   }
 }
 

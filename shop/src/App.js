@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./App.css";
 import "./index.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
@@ -9,6 +9,7 @@ import axios from "axios";
 
 import { Link, Route, Switch } from "react-router-dom";
 
+export let 재고context = React.createContext(); // 같은 변수값을 공유할 범위 생성
 function App() {
   let [acc, acc변경] = useState(Data);
   // data.js의 데이터 바인딩 (data.js import 후 사용)
@@ -17,7 +18,7 @@ function App() {
   // export default는 파일 당 한번만 사용 가능하다
   // 여러개의 변수를 export 하려면 export {name, name2} >> 대신 import할때 따로 작명이 아니라 import {name, name2} from "./data"; 이렇게 갖고 와야함
   let [로딩중, 로딩중변경] = useState(false);
-  let [재고, 재고변경] = useState([11, 12, 13, 13, 14, 1, 1]);
+  let [재고, 재고변경] = useState([11, 12, 13, 13, 14, 1, 1, 1, 1]);
 
   return (
     <div className="App">
@@ -39,24 +40,26 @@ function App() {
         <Route exact path="/">
           <Topbanner></Topbanner>
           <div className="container">
-            <div className="row">
-              {/* props 전송법 
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {/* props 전송법 
           1. <자식 컴포넌트 보낼이름쀼쀼 = {전송할 state}
           2. fuction 자식컴포넌트 (props){}
           3. props. 보낼이름쀼쀼 사용 */}
-              {/* 나는 반복문을 자식 컴포넌트에서 생각했는데 아예 부모 컴포넌트에서 보낼때 각 해당번째 props를 보냄  */}
+                {/* 나는 반복문을 자식 컴포넌트에서 생각했는데 아예 부모 컴포넌트에서 보낼때 각 해당번째 props를 보냄  */}
 
-              {
-                acc.map((accItem, i) => {
-                  // accItem > acc 안에 있는 하나하나의 데이타
-                  return <Card acc={accItem} key={i}></Card>; // = <Card acc={acc[i]} key={i}></Card>;
-                })
+                {
+                  acc.map((accItem, i) => {
+                    // accItem > acc 안에 있는 하나하나의 데이타
+                    return <Card acc={acc[i]} i={i} key={i}></Card>; // = <Card acc={accItem} key={i}></Card>;
+                  })
 
-                /*acc.map(function (accItem, i) {
+                  /*acc.map(function (accItem, i) {
             return <Card acc={acc[i]}></Card>;
           })*/
-              }
-            </div>
+                }
+              </div>
+            </재고context.Provider>
             <div className="loading-button">
               {로딩중 === true ? <LoaidngAlert></LoaidngAlert> : null}
               <button
@@ -86,7 +89,9 @@ function App() {
           </div>
         </Route>
         <Route path="/detail/:id">
-          <Detail acc={acc} 재고={재고} 재고변경={재고변경}></Detail>
+          <재고context.Provider value={재고}>
+            <Detail acc={acc} 재고={재고} 재고변경={재고변경}></Detail>
+          </재고context.Provider>
         </Route>
         {/* <Route path="/어쩌고" component={Modal}></Route> 사이에 html이 아니라 component로 보여줄 수 있음*/}
 
@@ -99,6 +104,7 @@ function App() {
 }
 
 function Card(props) {
+  let 재고 = useContext(재고context);
   return (
     <>
       <div className="col-md-4 ">
@@ -107,11 +113,23 @@ function Card(props) {
           <div className="container-contents-text">
             <h5>{props.acc.title}</h5>
             <p>
-              {props.acc.content} & {props.acc.price}{" "}
+              {props.acc.content} & {props.acc.price}
             </p>
+            {/* stock:
+            {재고[props.i]} */}
+            <Test></Test>
           </div>
         </div>
       </div>
+    </>
+  );
+}
+
+function Test() {
+  let 재고 = useContext(재고context);
+  return (
+    <>
+      <p>stock :{재고[0]}</p>
     </>
   );
 }

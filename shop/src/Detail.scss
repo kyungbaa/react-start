@@ -6,8 +6,9 @@ $main-color: #705b47;
 }
 
 .content-img {
-  width: 100%;
+  width: 50%;
   height: 500px;
+  object-fit: cover;
 }
 
 .container-box-detail-warp {
@@ -20,6 +21,15 @@ $main-color: #705b47;
 .more-button {
   position: relative;
   margin-top: 200px;
+}
+
+.wow-enter {
+  opacity: 0;
+}
+
+.wow-enter-active {
+  opacity: 1;
+  transition: all 500ms;
 }
 @media screen and (min-width: 1400px) {
   .container-contents {

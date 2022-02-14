@@ -5,6 +5,7 @@ import "./index.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import Data from "./data";
 import Detail from "./Detail";
+import axios from "axios";
 
 import { Link, Route, Switch } from "react-router-dom";
 
@@ -15,6 +16,8 @@ function App() {
   // 다른파일로 분류할 때 사용한다 어떤 특정한 파일을 다른 파일에서 사용하게 하고 싶을 때는 export default  변수명[]
   // export default는 파일 당 한번만 사용 가능하다
   // 여러개의 변수를 export 하려면 export {name, name2} >> 대신 import할때 따로 작명이 아니라 import {name, name2} from "./data"; 이렇게 갖고 와야함
+  let [로딩중, 로딩중변경] = useState(false);
+  let [재고, 재고변경] = useState([11, 12, 13, 13, 14, 1, 1]);
 
   return (
     <div className="App">
@@ -22,11 +25,11 @@ function App() {
         <Container>
           <Navbar.Brand>Statement Jewellery</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link>
-              <Link to="/">Home</Link>
+            <Nav.Link as={Link} to="/">
+              Home
             </Nav.Link>
-            <Nav.Link>
-              <Link to="/detail">Detail</Link>
+            <Nav.Link as={Link} to="/detail">
+              Detail
             </Nav.Link>
           </Nav>
         </Container>
@@ -48,15 +51,42 @@ function App() {
                   // accItem > acc 안에 있는 하나하나의 데이타
                   return <Card acc={accItem} key={i}></Card>; // = <Card acc={acc[i]} key={i}></Card>;
                 })
+
                 /*acc.map(function (accItem, i) {
             return <Card acc={acc[i]}></Card>;
           })*/
               }
             </div>
+            <div className="loading-button">
+              {로딩중 === true ? <LoaidngAlert></LoaidngAlert> : null}
+              <button
+                type="button"
+                className="btn btn-dark more-button"
+                onClick={() => {
+                  로딩중변경(true);
+                  /* 서버에 데이터를 보내고 싶을 떄 POST 요청하는 */
+                  axios.post("서버URL", { id: "kyungbaa", pw: 1212345 });
+
+                  axios
+                    .get("https://codingapple1.github.io/shop/data2.json")
+                    .then((result) => {
+                      로딩중변경(false);
+                      console.log(result.data);
+                      acc변경([...acc, ...result.data]);
+                    })
+                    .catch(() => {
+                      로딩중변경(false);
+                      console.log("실패했습니다.");
+                    });
+                }}
+              >
+                More
+              </button>
+            </div>
           </div>
         </Route>
         <Route path="/detail/:id">
-          <Detail acc={acc}></Detail>
+          <Detail acc={acc} 재고={재고} 재고변경={재고변경}></Detail>
         </Route>
         {/* <Route path="/어쩌고" component={Modal}></Route> 사이에 html이 아니라 component로 보여줄 수 있음*/}
 
@@ -104,4 +134,13 @@ function Topbanner() {
   );
 }
 
+function LoaidngAlert() {
+  return (
+    <>
+      <div className="alert alert-warning my-alert2" role="alert">
+        로딩중입니다.
+      </div>
+    </>
+  );
+}
 export default App;

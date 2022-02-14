@@ -1,0 +1,43 @@
+@import "./_reset.scss";
+$main-color: #705b47;
+
+.red {
+  color: $main-color;
+}
+
+.content-img {
+  width: 100%;
+  height: 500px;
+}
+
+.container-box-detail-warp {
+  position: relative;
+}
+.container-box-detail {
+  position: absolute;
+  bottom: 0px;
+}
+.more-button {
+  position: relative;
+  margin-top: 200px;
+}
+@media screen and (min-width: 1400px) {
+  .container-contents {
+    margin-bottom: -100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container-contents {
+    margin-bottom: -100px;
+    .container-contents-text {
+      padding: 0;
+    }
+  }
+  .container {
+    text-align: center;
+  }
+  .container-box-detail {
+    position: static;
+    bottom: 0px;
+  }
+}

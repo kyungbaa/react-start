@@ -6,6 +6,7 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import Data from "./data";
 import Detail from "./Detail";
 import axios from "axios";
+import Cart from "./Cart";
 
 import { Link, Route, Switch } from "react-router-dom";
 
@@ -29,8 +30,11 @@ function App() {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/detail">
+            <Nav.Link as={Link} to="/detail/0">
               Detail
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cart">
+              Cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -94,7 +98,9 @@ function App() {
           </재고context.Provider>
         </Route>
         {/* <Route path="/어쩌고" component={Modal}></Route> 사이에 html이 아니라 component로 보여줄 수 있음*/}
-
+        <Route path="/:cart">
+          <Cart></Cart>
+        </Route>
         <Route path="/:id">
           <div> 아무거나 적었을때 이 문구를 보여줄거란다 </div>
         </Route>
